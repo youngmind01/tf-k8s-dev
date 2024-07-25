@@ -1,6 +1,11 @@
 pipeline {
     agent any
     
+    environment {
+        REMOTE_HOST = '192.168.150.132' 
+        SSH_CREDENTIALS = '01'  // Update this to your actual SSH credentials ID
+    }
+    
     stages {
         stage('checkout') {
             steps {
@@ -8,12 +13,20 @@ pipeline {
             }
         }
 
-        stage('terraform init') {
+        stage('remote-ssh') {
+            environment {
+                SSH_USER = credentials(env.SSH_CREDENTIALS).username  // Correct usage of credentials function
+                SSH_PASS = credentials(env.SSH_CREDENTIALS).password  // Correct usage of credentials function
+            }
             steps {
                 script {
-                    dir('tf-k8s-dev') {
-                        sh 'terraform init'
-                    }
+                    // SSH into the remote host using password authentication
+                    sshCommand remote: [
+                        host: env.REMOTE_HOST,
+                        user: env.SSH_USER,
+                        password: env.SSH_PASS,
+                        port: 22  
+                    ]
                 }
             }
         }
