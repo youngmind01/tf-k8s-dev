@@ -10,8 +10,8 @@ pipeline {
         stage('SSH Command') {
             steps {
                 script {
-                    // Example of using sshCommand
-                    sh 'mylab@192.168.150.132' "echo Hello from Jenkins"
+                    // Execute SSH command and then execute a remote command
+                    sh "ssh mylab@192.168.150.132 'echo Hello from Jenkins'"
                 }
             }
         }
