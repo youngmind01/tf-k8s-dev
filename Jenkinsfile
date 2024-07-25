@@ -11,10 +11,9 @@ pipeline {
         stage('terraform init') {
             steps {
                 script {
-                    sh """
-                    cd tf-k8s-dev
-                    terraform init
-                    """
+                    dir('tf-k8s-dev') {
+                        sh 'terraform init'
+                    }
                 }
             }
         }
