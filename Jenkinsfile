@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REMOTE_HOST = '192.168.150.132'
-        SSH_CREDENTIALS = credentials('01') 
+        SSH_CREDENTIALS = credentials('01') // Use the correct credentials ID for your SSH key
     }
 
     stages {
@@ -16,7 +16,9 @@ pipeline {
             steps {
                 script {
                     def remoteCmd = "echo Hello from Jenkins"
-                    sh remoteUser: 'mylab', remoteHost: REMOTE_HOST, credentialsId: SSH_CREDENTIALS, command: remoteCmd
+                    sshCommand remote: REMOTE_HOST, 
+                    credentials: SSH_CREDENTIALS, 
+                    command: remoteCmd
                 }
             }
         }
