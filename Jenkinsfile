@@ -16,9 +16,8 @@ pipeline {
             steps {
                 script {
                     def remoteCmd = "echo Hello from Jenkins"
-                    sshCommand remote: REMOTE_HOST, 
-                    credentials: SSH_CREDENTIALS, 
-                    command: remoteCmd
+                    def sshCommand = "ssh -o StrictHostKeyChecking=no -i ${SSH_CREDENTIALS} mylab@${REMOTE_HOST} '${remoteCmd}'"
+                    sh(script: sshCommand, returnStdout: true)
                 }
             }
         }
