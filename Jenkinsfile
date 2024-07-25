@@ -4,6 +4,8 @@ pipeline {
     environment {
         REMOTE_HOST = '192.168.150.132' 
         SSH_CREDENTIALS = '01'  // Update this to your actual SSH credentials ID
+        SSH_USER = ''  // Initialize variables for later use
+        SSH_PASS = ''
     }
     
     stages {
@@ -14,17 +16,18 @@ pipeline {
         }
 
         stage('remote-ssh') {
-            environment {
-                SSH_USER = credentials(env.SSH_CREDENTIALS).username  // Correct usage of credentials function
-                SSH_PASS = credentials(env.SSH_CREDENTIALS).password  // Correct usage of credentials function
-            }
             steps {
                 script {
+                    // Retrieve SSH credentials dynamically
+                    def credentials = credentials(env.SSH_CREDENTIALS)
+                    SSH_USER = credentials.username
+                    SSH_PASS = credentials.password
+                    
                     // SSH into the remote host using password authentication
                     sshCommand remote: [
                         host: env.REMOTE_HOST,
-                        user: env.SSH_USER,
-                        password: env.SSH_PASS,
+                        user: SSH_USER,
+                        password: SSH_PASS,
                         port: 22  
                     ]
                 }
