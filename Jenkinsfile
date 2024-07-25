@@ -16,6 +16,9 @@ pipeline {
             steps {
                 script {
                     def creds = credentials('01')
+                    if (creds == null) {
+                        error "Credentials with ID '01' not found"
+                    }
                     sh """
                     sshpass -p '${creds.password}' ssh '${creds.username}@${env.KUBE_NODE_IP}' 'kubectl get pods -A'
                     """
