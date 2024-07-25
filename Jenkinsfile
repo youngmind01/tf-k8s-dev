@@ -19,13 +19,13 @@ pipeline {
             steps {
                 script {
                     // Retrieve SSH credentials dynamically
-                    def credentials = credentials(env.SSH_CREDENTIALS)
-                    SSH_USER = credentials.username
-                    SSH_PASS = credentials.password
+                    def creds = credentials(SSH_CREDENTIALS)
+                    SSH_USER = creds.username
+                    SSH_PASS = creds.password
                     
                     // SSH into the remote host using password authentication
                     sshCommand remote: [
-                        host: env.REMOTE_HOST,
+                        host: REMOTE_HOST,
                         user: SSH_USER,
                         password: SSH_PASS,
                         port: 22  
