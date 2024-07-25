@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REMOTE_HOST = '192.168.150.132'
-        SSH_CREDENTIALS = credentials('01')
+        SSH_CREDENTIALS = credentialsId('01')
     }
 
     stages {
