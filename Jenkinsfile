@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git credentialsId: '02', url: 'https://github.com/youngmind01/tf-k8s-dev.git'
             }
         }
         stage('SSH Command') {
             steps {
                 script {
                     // Example of using sshCommand
-                    sshCommand remote: '192.168.150.132', command: 'echo Hello from Jenkins'
+                    sh 'mylab@192.168.150.132' "echo Hello from Jenkins"
                 }
             }
         }
